@@ -1,0 +1,30 @@
+{
+    "name": "automate-the-lame-stuff",
+    "version": "1.0.0",
+    "description": "A project to help automate the lame stuff that I don't want to do using Javascript. Inspired by Al Sweigart's \"Automate the Boring Stuff with Python\"",
+    "main": "src/index.js",
+    "bin": {
+        "@your_npm_username/create-project": "bin/create-project",
+        "create-project": "bin/create-project"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "cli",
+        "create-project"
+    ],
+    "author": "Vince Howard",
+    "license": "MIT",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "esm": "^3.2.25",
+        "yargs": "^15.4.0"
+    },
+    "devDependencies": {
+        "playwright": "^1.1.1"
+    }
+}
