@@ -1,1 +1,1 @@
-# automate-the-lame-stuff
+# Automate the Lame Stuff with Javascript
