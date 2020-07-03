@@ -18,7 +18,7 @@ async function click(page, arg) {
     try {
         await page.click(arg);
     } catch (err) {
-        console.error('Click error:', err);
+        console.error('Button Click Error:', err);
     }
 }
 
@@ -26,8 +26,12 @@ async function fill(page, input, value) {
     try {
         await page.fill(input, value);
     } catch (err) {
-        console.error('Click error:', err);
+        console.error('Input Fill Error:', err);
     }
+}
+
+function convertPriceNum(price) {
+    return parseFloat(price.substring(1));
 }
 
 const payBillNavSelector =
@@ -38,8 +42,9 @@ const usernameInputBox = '#ctl00_MainContent_txtUserID';
 const passwordInputBox = '#ctl00_MainContent_txtPassword';
 const paymentButton =
     '#ctl00_MainContent_tblButtons > tbody > tr > td:nth-child(1) > input';
-const paymentAmountInputBox =
-    '#ctl00_MainContent_paymentProcess_MainContainer > div:nth-child(3) > div.paymentSectionHeader.headerTextStyle > span';
+const paymentAmountInputBox = '#ctl00_MainContent_cPaymentAmount';
+const paymentNoteInputBox = '#ctl00_MainContent_cPaymentNote';
+const postPayment = '#ctl00_MainContent_cPostPayment';
 
 (async () => {
     const browser = await webkit.launch();
@@ -67,6 +72,17 @@ const paymentAmountInputBox =
     // Wait for payment form
     await waitFor(page, paymentAmountInputBox);
 
-    await page.screenshot({ path: `example.png` });
+    const currentTotal = await page.$eval(
+        '#ctl00_MainContent_balanceBox_lblPastDueValue',
+        (e) => e.textContent,
+    );
+    const convertedPriceTotal = convertPriceNum(currentTotal);
+
+    await fill(page, paymentAmountInputBox, convertedPriceTotal.toString());
+    await fill(page, paymentNoteInputBox, 'Automated Payment');
+
+    // await click(page, postPayment);
+
+    await page.screenshot({ path: `postPayment.png` });
     await browser.close();
 })();
